@@ -1,0 +1,50 @@
+extends partials/skeleton
+
+block content
+  style.
+    #map{width:100%; height: 70vh;}
+    .full-width: {width:100%; padding:10px;}
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.min.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.css' type='text/css' />
+
+  div(class = "alert alert-primary my-2") #{context}
+  div(class = "full-width text-center")
+    h4 MappExpress
+    hr
+    img(src="/images/map.png", alt="MapExpress")
+  div(class = "row my-2 justify-content-center")
+    div(class = "col-md-12")
+      div(id='map')
+      script.
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [36.8219, -1.2921],
+            zoom: 13
+        });
+
+        //
+        geolocate = new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+            trackUserLocation: true
+        }
+        )
+        // Add geolocate control to the map.
+        map.addControl(geolocate);
+
+        
+
+        map.addControl(new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken
+        }));
+
+        map.on('load', function()
+        {
+          geolocate.trigger();
+        });
+
+
