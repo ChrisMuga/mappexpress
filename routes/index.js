@@ -6,5 +6,6 @@ var AppController = require('../controllers/AppController')
 
 // index
 router.get('/', AppController.index);
+router.get('/distances', AppController.distances);
 
 module.exports = router;
