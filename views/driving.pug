@@ -10,36 +10,31 @@ block content
             div(id = "map")
 
     script.
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [36.81667, -1.28333],
-            zoom: 13
-        });
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude)
+                    //- map-box
+                    mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
+                    var map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: [position.coords.longitude, position.coords.latitude],
+                        zoom: 13
+                    });
+                    
 
-        //- bias geocoder
-        var geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken
-        });
-        map.addControl(geocoder);
-        
-        map.on('load', updateGeocoderProximity); // set proximity on map load
-        map.on('moveend', updateGeocoderProximity); // and then update proximity each time the map moves
-        
-        function updateGeocoderProximity() {
-        // proximity is designed for local scale, if the user is looking at the whole world,
-        // it doesn't make sense to factor in the arbitrary centre of the map
-        if (map.getZoom() > 9) {
-        var center = map.getCenter().wrap(); // ensures the longitude falls within -180 to 180 as the Geocoding API doesn't accept values outside this range
-        geocoder.setProximity({ longitude: center.lng, latitude: center.lat });
-        } else {
-        geocoder.setProximity(null);
-        }
+                    //- directions
+                    map.addControl(new MapboxDirections({
+                        accessToken: mapboxgl.accessToken
+                    }), 'top-left');
+                    //- map-box
+                    
+                })
+            } else { 
+                console.warn("Geolocation is not supported by this browser.")
+            }
         }
 
-        //- directions
-        map.addControl(new MapboxDirections({
-            accessToken: mapboxgl.accessToken
-        }), 'top-left');
+        getLocation()
 
