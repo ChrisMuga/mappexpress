@@ -23,16 +23,17 @@ module.exports = {
         res.render('driving')
     },
     data:(req, res, next) => {
-        var _ = require('lodash');
-        var users = [
-            { 'user': 'barney',  'age': 36, 'active': true },
-            { 'user': 'fred',    'age': 40, 'active': false },
-            { 'user': 'pebbles', 'age': 1,  'active': true }
-          ];
-           
-         x= _.filter(users, {
-             active: true
-         });
-         res.send(x)
+        var _ = require('lodash')
+        var url = 'https://jsonplaceholder.typicode.com/users'
+        fetch(url)
+        .then(res =>{return res.json()})
+        .then(json => {
+            var users = json
+            filtered= _.filter(users, {
+                name: 'Chelsey Dietrich'
+            })
+            res.send(filtered)
+        })
+        
     }
 }
