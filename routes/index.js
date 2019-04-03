@@ -5,7 +5,10 @@ var router = express.Router();
 var AppController = require('../controllers/AppController')
 
 // index
-router.get('/', AppController.index);
-router.get('/distances', AppController.distances);
+router.get('/', AppController.index)
+router.get('/distances', AppController.distances)
+router.get('/proximity', AppController.proximity)
+router.get('/driving', AppController.driving)
+router.get('/data', AppController.data)
 
 module.exports = router;

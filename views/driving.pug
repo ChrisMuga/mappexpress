@@ -1,0 +1,45 @@
+extends partials/skeleton
+block content
+    script(src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js')
+    link(rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' )
+
+    style.
+        #map{width:100%; height: 64vh;}
+    div(class = "row my-2 d-flex justify-content-center")
+        div(class = 'col-md-12')
+            div(id = "map")
+
+    script.
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [36.81667, -1.28333],
+            zoom: 13
+        });
+
+        //- bias geocoder
+        var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken
+        });
+        map.addControl(geocoder);
+        
+        map.on('load', updateGeocoderProximity); // set proximity on map load
+        map.on('moveend', updateGeocoderProximity); // and then update proximity each time the map moves
+        
+        function updateGeocoderProximity() {
+        // proximity is designed for local scale, if the user is looking at the whole world,
+        // it doesn't make sense to factor in the arbitrary centre of the map
+        if (map.getZoom() > 9) {
+        var center = map.getCenter().wrap(); // ensures the longitude falls within -180 to 180 as the Geocoding API doesn't accept values outside this range
+        geocoder.setProximity({ longitude: center.lng, latitude: center.lat });
+        } else {
+        geocoder.setProximity(null);
+        }
+        }
+
+        //- directions
+        map.addControl(new MapboxDirections({
+            accessToken: mapboxgl.accessToken
+        }), 'top-left');
+

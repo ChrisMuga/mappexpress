@@ -15,5 +15,24 @@ module.exports = {
        .catch(err=> {
            res.send(err)
        })
+    },
+    proximity: (req, res, next) => {
+        res.render('proximity')
+    },
+    driving: (req, res, next) => {
+        res.render('driving')
+    },
+    data:(req, res, next) => {
+        var _ = require('lodash');
+        var users = [
+            { 'user': 'barney',  'age': 36, 'active': true },
+            { 'user': 'fred',    'age': 40, 'active': false },
+            { 'user': 'pebbles', 'age': 1,  'active': true }
+          ];
+           
+         x= _.filter(users, {
+             active: true
+         });
+         res.send(x)
     }
 }
