@@ -15,15 +15,18 @@ block content
                 navigator.geolocation.getCurrentPosition(function(position){
                     console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude)
                     //- map-box
-                    mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
+                    //- mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg';
+                    //- p - pk.eyJ1Ijoic3ludGF4bHRkIiwiYSI6ImNqaDJxNnhzbDAwNnMyeHF3dGlqODZsYjcifQ.pcz6BWpzCHeZ6hQg4AH9ww
+                    //- d - pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg 
+                    mapboxgl.accessToken = 'pk.eyJ1Ijoic3ludGF4bHRkIiwiYSI6ImNqaDJxNnhzbDAwNnMyeHF3dGlqODZsYjcifQ.pcz6BWpzCHeZ6hQg4AH9ww';
                     var map = new mapboxgl.Map({
                         container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v11',
+                        //- style: 'mapbox://styles/mapbox/streets-v11',
+                        style: 'mapbox://styles/syntaxltd/cjtej8ywg042q1fo5en2014kv',
                         center: [position.coords.longitude, position.coords.latitude],
                         zoom: 13
-                    });
+                    })
                     
-
                     //- directions
                     map.addControl(new MapboxDirections({
                         accessToken: mapboxgl.accessToken

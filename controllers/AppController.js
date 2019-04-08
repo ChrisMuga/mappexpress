@@ -35,5 +35,19 @@ module.exports = {
             res.send(filtered)
         })
         
+    },
+    places: (req, res, next) => {
+        query = 'manchester'
+        apiKey = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
+        url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+query+'.json?access_token='+apiKey
+        fetch(url)
+        .then(res => {return res.json()})
+        .then(json => {
+            // res.send(json)
+            res.render('places', {
+                places : json,
+                context: 'Places',
+            })
+        })
     }
 }

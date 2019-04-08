@@ -10,5 +10,6 @@ router.get('/distances', AppController.distances)
 router.get('/proximity', AppController.proximity)
 router.get('/driving', AppController.driving)
 router.get('/data', AppController.data)
+router.get('/places', AppController.places)
 
 module.exports = router;
