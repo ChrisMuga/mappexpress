@@ -37,7 +37,7 @@ module.exports = {
         
     },
     places: (req, res, next) => {
-        query = 'manchester'
+        query = 'miami'
         apiKey = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
         url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+query+'.json?access_token='+apiKey
         fetch(url)
