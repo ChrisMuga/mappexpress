@@ -37,7 +37,7 @@ block content
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [p1a[1],p1a[0]], // starting position [lng, lat]
-            zoom: 13 // starting zoom
+            zoom: 5 // starting zoom
             })
             var directions = new MapboxDirections({
             accessToken: mapboxgl.accessToken,
@@ -52,6 +52,7 @@ block content
             });
 
             map.addControl(directions, 'top-left');
+            console.log(directions)
 
         }
         
