@@ -54,21 +54,20 @@ block content
             map.on('load', function() {
                 directions.setOrigin([p1a[1],p1a[0]]);
                 directions.setDestination([p2a[1],p2a[0]])
-                //- fetch distance
-                directions.on("route", e => {
-                    let routes = e.route
-                    distance = routes.map(r => r.distance)
-                    duration = routes.map(r => r.duration)
-                    //- console.log(distance, duration)
-                    distance = distance[0]
-                    duration = duration[0]
-                    console.log(distance)
-                    console.log(routes)
-                    alertify.error('distance (meters) - '+ distance)
-                    alertify.error('duration (seconds) - '+ distance)
-                })
             });
-
+             //- fetch distance
+            directions.on("route", e => {
+                let routes = e.route
+                distance = routes.map(r => r.distance)
+                duration = routes.map(r => r.duration)
+                //- console.log(distance, duration)
+                distance = distance[0]
+                duration = duration[0]
+                console.log(distance)
+                console.log(routes)
+                alertify.error('distance (meters) - '+ distance)
+                alertify.error('duration (seconds) - '+ distance)
+            })
             map.addControl(directions, 'top-left');
             console.log(directions)
             
