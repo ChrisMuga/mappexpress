@@ -17,7 +17,7 @@ block content
                 option(value = `${place.geometry.coordinates[1]},${place.geometry.coordinates[0]}` class = "form-control" ) #{place.place_name} 
         hr
 
-        span(v-show="point1" class = "ml-2 badge badge-danger badge-sm b0") {{point1}} 
+        span(v-show="point1" class = "ml-2 badge badge-primary badge-sm b0") {{point1}} 
         span(v-show="point2" class = "ml-2 badge badge-dark badge-sm b0") {{point2}}
         hr
         button(v-show="point1 && point2" class = "btn btn-info b0" onclick = "map()") Map
@@ -37,22 +37,41 @@ block content
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [p1a[1],p1a[0]], // starting position [lng, lat]
-            zoom: 5 // starting zoom
+            zoom: 12, // starting zoom
+           
+         
             })
             var directions = new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: 'metric',
-            profile: 'mapbox/driving',
-            setOrigin: [p1a[1],p1a[0]],
-            setDestination: [p2a[1],p2a[0]],
+                accessToken: mapboxgl.accessToken,
+                unit: 'metric',
+                profile: 'mapbox/driving-traffic',
+                controls:{
+                    //- inputs: false,
+                    //- instructions: false,
+                },
             });
+            
             map.on('load', function() {
                 directions.setOrigin([p1a[1],p1a[0]]);
                 directions.setDestination([p2a[1],p2a[0]])
+                //- fetch distance
+                directions.on("route", e => {
+                    let routes = e.route
+                    distance = routes.map(r => r.distance)
+                    duration = routes.map(r => r.duration)
+                    //- console.log(distance, duration)
+                    distance = distance[0]
+                    duration = duration[0]
+                    console.log(distance)
+                    console.log(routes)
+                    alertify.error('distance (meters) - '+ distance)
+                    alertify.error('duration (seconds) - '+ distance)
+                })
             });
 
             map.addControl(directions, 'top-left');
             console.log(directions)
+            
 
         }
         
@@ -63,6 +82,8 @@ block content
                 message: 'Mapbox Places',
                 point1: null,
                 point2: null,
-            }
+            },
+           
         })
-    
+
+        
