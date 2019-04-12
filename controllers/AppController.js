@@ -37,7 +37,7 @@ module.exports = {
         
     },
     places: (req, res, next) => {
-        query = 'manchester'
+        query = 'Toronto'
         apiKey = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
         url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+query+'.json?access_token='+apiKey
         fetch(url)
@@ -47,6 +47,37 @@ module.exports = {
             res.render('places', {
                 places : json,
                 context: 'Places',
+            })
+        })
+    },
+
+    // directions
+    directions: (req, res, next)=> {
+        //simulates nairobi to mombasa drive
+        // modes - driving | diving-traffic
+        mapboxAccessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
+        from = '36.834583,-1.362863'
+        to = '39.669571,-4.036878'
+        url = `https://api.mapbox.com/directions/v5/mapbox/driving/${from};${to}.json?access_token=${mapboxAccessToken}`
+        fetch(url)
+        .then(data => data.json())
+        .then(data => {
+            res.send(data)
+        })
+    },
+
+    geocoding: (req, res, next) => {
+        query = 'java hurlingham'
+        url = `https://nominatim.openstreetmap.org/search?q=${query}&addressdetails=1&format=json&countrycodes=ke`
+        fetch(url)
+        .then(data => data.json())
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            res.send({
+                msg: 'something went wrong',
+                err: err,
             })
         })
     }
