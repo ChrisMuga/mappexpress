@@ -66,8 +66,9 @@ module.exports = {
         })
     },
 
+    // geocoding
     geocoding: (req, res, next) => {
-        query = 'java hurlingham'
+        query = 'tuskys buruburu'
         url = `https://nominatim.openstreetmap.org/search?q=${query}&addressdetails=1&format=json&countrycodes=ke`
         fetch(url)
         .then(data => data.json())
@@ -80,5 +81,10 @@ module.exports = {
                 err: err,
             })
         })
+    },
+
+    // reverse geocoding
+    reveseGeocoding: (req, res, next) => {
+        // -1.2916937,36.7981071
     }
 }
