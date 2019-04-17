@@ -156,7 +156,7 @@ module.exports = self = {
         mapboxAccessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
         from    = '-1.362863,36.834583'
         to      = '-4.036878,39.669571'         
-        url = `https://api.mapbox.com/directions/v5/mapbox/driving/${from};${to}.json?access_token=${mapboxAccessToken}`
+        url = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${from};${to}.json?access_token=${mapboxAccessToken}`
         fetch(url)
         .then(data => data.json())
         .then(function (data) {
@@ -174,7 +174,14 @@ module.exports = self = {
     snapXY: (req,res)=>{
         console.log('snap-xy')
         mapboxAccessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
-        url = `https://api.mapbox.com/matching/v5/mapbox/driving/-117.17282,32.71204;-117.17288,32.71225;-117.17293,32.71244;-117.17292,32.71256;-117.17298,32.712603;-117.17314,32.71259;-117.17334,32.71254?access_token=${mapboxAccessToken}`
+        // -117.17282,32.71204;-117.17288,32.71225;-117.17293,32.71244;-117.17292,32.71256;-117.17298,32.712603;-117.17314,32.71259;-117.17334,32.71254
+
+        // fetch coordinates array
+        coordinates = ['-117.17282,32.71204','-117.17288,32.71225','-117.17293,32.71244','-117.17292,32.71256','-117.17298,32.712603','-117.17314,32.71259','-117.17334,32.71254']
+        //convert coordinates array to string with separator ;
+        coordinatesString = coordinates.join(';')
+        // fetch map matching data using mapbox api
+        url = `https://api.mapbox.com/matching/v5/mapbox/driving/${coordinatesString}?access_token=${mapboxAccessToken}`
         fetch(url)
         .then(data => data.json())
         .then(data => {
