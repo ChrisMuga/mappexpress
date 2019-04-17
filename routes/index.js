@@ -15,5 +15,6 @@ router.get('/directions', AppController.directions)
 router.get('/geocoding', AppController.geocoding)
 router.get('/simple-request', AppController.simpleRequest)
 router.get('/snap', AppController.snap)
+router.get('/snap-xy', AppController.snapXY)
 
 module.exports = router;
