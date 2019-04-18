@@ -12,9 +12,10 @@ router.get('/driving', AppController.driving)
 router.get('/data', AppController.data)
 router.get('/places', AppController.places)
 router.get('/directions', AppController.directions)
-router.get('/geocoding', AppController.geocoding)
+router.get('/geocoding/:query', AppController.geocoding)
 router.get('/simple-request', AppController.simpleRequest)
 router.get('/snap', AppController.snap)
 router.get('/snap-xy', AppController.snapXY)
+router.get('/search-places', AppController.searchPlaces)
 
 module.exports = router;

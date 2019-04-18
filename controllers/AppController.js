@@ -77,7 +77,7 @@ module.exports = self = {
 
     // geocoding
     geocoding: (req, res, next) => {
-        query = 'buruburu police'
+        query = req.params.query
         url = `https://nominatim.openstreetmap.org/search?q=${query}&addressdetails=1&format=json&countrycodes=ke`
         fetch(url)
         .then(data => data.json())
@@ -202,5 +202,10 @@ module.exports = self = {
         .catch(err => {
             res.send(err)
         })
+    },
+
+    searchPlaces: (req, res, next) => {
+        
+        res.render('search-places')
     }
 }

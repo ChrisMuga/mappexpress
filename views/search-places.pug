@@ -1,0 +1,55 @@
+extends partials/skeleton
+block content
+    style.
+      .twitter-typeahead, .tt-hint, .tt-input, .tt-menu  { width: 100%; } 
+      .b0{border-radius: 0;}
+    h1 Search
+    input(type="text" class = "form-control" id="my_search" name="search" autocomplete="off" placeholder="Search places example. 'Buruburu'")
+    script.
+        // init Bloodhound
+        var countries_suggestions = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            //- prefetch: {
+            //-     url:'https://raw.githubusercontent.com/twitter/typeahead.js/gh-pages/data/countries.json',
+            //-     transform: function (data) {          // we modify the prefetch response
+            //-         var newData = [];                 // here to match the response format 
+            //-         data.forEach(function (item) {    // of the remote endpoint
+            //-             newData.push({'name': item});
+            //-         });
+            //-         return newData;
+            //-     }
+            //- },
+             remote: {
+                url: 'geocoding/%QUERY',
+                wildcard: '%QUERY'
+            },
+            identify: function (response) {
+                return response.name;
+            }
+        });
+
+        // init Typeahead
+        $('#my_search').typeahead(
+        {
+            minLength: 2,
+            highlight: true
+        },
+        {
+            name: 'countries',
+            source: countries_suggestions,   // suggestion engine is passed as the source
+            display: function(item) {        // display: 'name' will also work
+                return item.display_name;
+            },
+            limit: 5,
+            templates: {
+                suggestion: function(item) {
+                    coordinates = `location (${item.lat},${item.lon})`
+                    return `
+                            <div class = "bg-light p-4 my-2">
+                                <a href = "#" class = "link" onclick = "alertify.success('${coordinates}')">${item.display_name}</a>
+                            </div>
+                            `;
+                }
+            }
+        });
