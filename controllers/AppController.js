@@ -102,7 +102,7 @@ module.exports = self = {
         from = '36.834583,-1.362863'
         to = '39.669571,-4.036878'
         url = `https://api.mapbox.com/directions/v5/mapbox/driving/${from};${to}.json?access_token=${mapboxAccessToken}`
-        var rp = require('request-promise');
+        var requestP = require('request-promise');
         var options = {
             uri: url,
             qs: {
@@ -114,14 +114,14 @@ module.exports = self = {
             json: true // Automatically parses the JSON string in the response
         };
          
-        rp(options)
-            .then(users =>{
-                res.send(users)
-            })
-            .catch(err => {
-                // API call failed...
-                res.send(err)
-            });
+        requestP(options)
+        .then(users =>{
+            res.send(users)
+        })
+        .catch(err => {
+            // API call failed...
+            res.send(err)
+        });
     },
 
     snap: (req, res, next) => {
@@ -207,5 +207,39 @@ module.exports = self = {
     searchPlaces: (req, res, next) => {
         
         res.render('search-places')
+    },
+
+    requestSnapXY:(req, res, next) => {
+
+        console.log('snap-xy')
+        mapboxAccessToken = 'pk.eyJ1IjoiY2hyaXN0aWFuOTQiLCJhIjoiY2pyOGtwamlrMDdlcjQ1bDgyY2d2N3YxYyJ9.L88q8kDAaxr61oEG_HIssg'
+        // fetch coordinates array
+        coordinates = ['-117.17282,32.71204','-117.17288,32.71225','-117.17293,32.71244','-117.17292,32.71256','-117.17298,32.712603','-117.17314,32.71259','-117.17334,32.71254']
+        //convert coordinates array to string with separator ;
+        coordinatesString = coordinates.join(';')
+        // fetch map matching data using mapbox api
+        url = `https://api.mapbox.com/matching/v5/mapbox/driving/${coordinatesString}?access_token=${mapboxAccessToken}`
+        var requestP = require('request-promise');
+        var options = {
+            uri: url,
+            qs: {
+                access_token: mapboxAccessToken // -> uri + '?access_token=xxxxx%20xxxxx'
+            },
+            headers: {
+                'User-Agent': 'Request-Promise'
+            },
+            json: true // Automatically parses the JSON string in the response
+        };
+         
+        requestP(options)
+        .then(data => {
+            pointsArray = data.tracepoints
+            points = _.map(pointsArray, 'location')
+            res.send(points)
+        })
+        .catch(err => {
+            res.send(err)
+        })
+
     }
 }

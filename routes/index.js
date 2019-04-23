@@ -16,6 +16,7 @@ router.get('/geocoding/:query', AppController.geocoding)
 router.get('/simple-request', AppController.simpleRequest)
 router.get('/snap', AppController.snap)
 router.get('/snap-xy', AppController.snapXY)
+router.get('/request-snap-xy', AppController.requestSnapXY)
 router.get('/search-places', AppController.searchPlaces)
 
 module.exports = router;
